@@ -1,19 +1,23 @@
-var apiKey = localStorage.getItem("myApi");
+// global variables
+var apiKey = "db59a75063730a6653661667d1b3ff1a";
 var formEl = document.getElementById("search-form");
 var apiBtnEl = document.getElementById("apibtn");
 var apiKeyEl = document.getElementById("apikey");
 var cities = JSON.parse(localStorage.getItem("cities"));
 var cityListEl = document.getElementById("city-list");
 
+// functions
 function onLoad() {
-  if (apiKey) {
-    document.getElementById("default").innerHTML = "";
-    document.getElementById("current-content").style.visibility = "visible";
-    document.getElementById("forecast").style.visibility = "hidden";
-  } else {
-    document.getElementById("current-content").style.visibility = "hidden";
-    document.getElementById("forecast").style.visibility = "hidden";
-  };
+  // if (apiKey) {
+  //   document.getElementById("default").innerHTML = "";
+  //   document.getElementById("current-content").style.visibility = "visible";
+  //   document.getElementById("forecast").style.visibility = "hidden";
+  // } else {
+  //   document.getElementById("current-content").style.visibility = "hidden";
+  //   document.getElementById("forecast").style.visibility = "hidden";
+  // };
+  document.getElementById("default").innerHTML = "";
+  document.getElementById("forecast").style.visibility = "hidden";
   if (cities) {
     for (i = 0; i < cities.length; i++) {
       var newCityEl = document.createElement("li");
@@ -26,25 +30,24 @@ function onLoad() {
   }
 };
 
-function apiKeySub() {
-  apiKey = apiKeyEl.value;
-  localStorage.setItem("myApi", apiKey);
-  fetch("https://api.openweathermap.org/data/2.5/weather?units=imperial&q=chico&appid=" + apiKey)
-    .then(function (res) {
-      return res.json();
-    }).then(function (res) {
-      if (res.cod === 200) {
-        onLoad();
-      } else {
-        alert("Not a valid OpenWeather API key.  Please enter a valid key.  Go to openweathermap.org for more information.");
-        apiKeyEl.value = "";
-        localStorage.removeItem("myApi");
-      }
-    });
-};
+// function apiKeySub() {
+//   apiKey = apiKeyEl.value;
+//   localStorage.setItem("myApi", apiKey);
+//   fetch("https://api.openweathermap.org/data/2.5/weather?units=imperial&q=chico&appid=" + apiKey)
+//     .then(function (res) {
+//       return res.json();
+//     }).then(function (res) {
+//       if (res.cod === 200) {
+//         onLoad();
+//       } else {
+//         alert("Not a valid OpenWeather API key.  Please enter a valid key.  Go to openweathermap.org for more information.");
+//         apiKeyEl.value = "";
+//         localStorage.removeItem("myApi");
+//       }
+//     });
+// };
 
-function searchResults(event, city) {
-  event.preventDefault();
+function searchResults(city) {
   var currentWeather = "https://api.openweathermap.org/data/2.5/weather?units=imperial&q=" + city + "&appid=" + apiKey;
   if (city) {
     fetch(currentWeather).then(function (res) {
@@ -123,17 +126,19 @@ function clearCities() {
 
 onLoad();
 
+// event listeners
 formEl.addEventListener("submit", function (event) {
+  event.preventDefault();
   var city = document.getElementById("search").value;
-  if (apiKey) {
-    searchResults(event, city);
-  }
+  // if (apiKey) {
+  searchResults(city);
+  // }
 });
-apiBtnEl.addEventListener("click", apiKeySub);
+// apiBtnEl.addEventListener("click", apiKeySub);
 
 cityListEl.addEventListener("click", function (event) {
   if (event.target && event.target.matches("li.list-group-item")) {
     city = event.target.innerText;
-    searchResults(event, city);
+    searchResults(city);
   }
 });

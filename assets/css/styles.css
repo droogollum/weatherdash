@@ -2,5 +2,5 @@ header {
   color: aliceblue;
 }
 div.text-white {
-  min-width: 180px;
+  width: 200px;
 }
