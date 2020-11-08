@@ -52,7 +52,7 @@ function searchResults(event, city) {
     }).then(function (res) {
       if (res.cod === 200) {
         var date = new Date().toLocaleDateString("en-US");
-        var icon = "http://openweathermap.org/img/wn/" + res.weather[0].icon + ".png";
+        var icon = "https://openweathermap.org/img/wn/" + res.weather[0].icon + ".png";
         var currentTitle = document.getElementById("current-title");
         currentTitle.textContent = res.name + " (" + date + ") ";
         var iconEl = document.createElement("img");
@@ -66,7 +66,7 @@ function searchResults(event, city) {
         currentWind.textContent = "Wind Speed: " + res.wind.speed.toFixed(1) + " mph";
         var lat = res.coord.lat;
         var long = res.coord.lon;
-        var currentUviApi = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + long + "&appid=" + apiKey;
+        var currentUviApi = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + long + "&appid=" + apiKey;
         fetch(currentUviApi).then(function (uvRes) {
           return uvRes.json();
         }).then(function (uvRes) {
@@ -75,7 +75,7 @@ function searchResults(event, city) {
           var uvCond = ""
           if (currentUv < 3) {
             uvCond = "badge-success";
-          } else if (currentUv > 3 && currentUv < 6) {
+          } else if (currentUv >= 3 && currentUv < 6) {
             uvCond = "badge-warning";
           } else {
             uvCond = "badge-danger";
@@ -89,7 +89,7 @@ function searchResults(event, city) {
           document.getElementById("forecast").style.visibility = "visible";
           for (i = 1; i < 6; i++) {
             var date = new Date(res.daily[i].dt * 1000).toLocaleDateString();
-            var icon = "http://openweathermap.org/img/wn/" + res.daily[i].weather[0].icon + ".png";
+            var icon = "https://openweathermap.org/img/wn/" + res.daily[i].weather[0].icon + ".png";
             var forTemp = res.daily[i].temp.max;
             var forHum = res.daily[i].humidity;
             var forCardEl = document.getElementById("forecast-" + i);
